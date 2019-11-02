@@ -7,11 +7,17 @@
 <h1>Stockify</h1>
 {% if name %}
 <p1>Hi {{name}}!</p1>
+<pi>You are {{age}} years old!</p1>
 {% else %}
+
 <form action='/about' method="POST">
-	<input type='text' name='name'>Name:
+	Name:<input type='text' name='name'>
+	Age:<input type='text' name='age'>
 	<input type='submit' name='submit'>
 </form>
+
+
+
 {% endif %}
 
 </body>
