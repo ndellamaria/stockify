@@ -51,6 +51,39 @@ def table():
     else:
         return render_template('table.html', stockList=stockList, form=form)
 
+@app.route('/generate_playlist',methods=['GET','POST'])
+def generate_playlist():
+
+    try:
+        sp = spotipy.Spotify(auth=access_token)
+    except:
+        # client_id
+        # client_secret
+
+        grant_type = 'client_credentials'
+        body_params = {'grant_type' : grant_type}
+
+        url='https://accounts.spotify.com/api/token'
+
+        r=requests.post(url, data=body_params, auth = (client_id, client_secret))
+        data = r.json()
+        access_token = data['access_token']
+
+        sp = spotipy.Spotify(auth=access_token)
+
+    happytracks = sp.search(q='happy', limit=20, type='playlist')
+
+    list = happytracks['playlists']['items']
+
+    first = list[0]['name']
+
+    flash('Play some {}.'.format(first))
+    # return redirect('/music')
+    return render_template('music.html')
+
+
+
+
 
 
 app.run()
