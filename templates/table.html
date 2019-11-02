@@ -62,17 +62,17 @@
 
 <hr>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <table>
-      <tr>
-        {% for message in messages %}
-        <td>{{ message }}</td>
-        {% endfor %}
-      </tr>
-    </table>
-    {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<table>
+  <tr>
+    {% for message in messages %}
+      <td>{{ message }}</td>
+    {% endfor %}
+  </tr>
+</table>
+{% endif %}
+{% endwith %}
 
 
 

@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, flash, redirect
 from forms import StockForm
+from flask_bootstrap import Bootstrap
 app = Flask(__name__)
+Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'some_string'
 
