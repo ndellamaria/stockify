@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>VandyHacks!</title>
+  <link rel = "stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}"/>
+</head>
+
+
+<body>
+<h1>Stockify</h1>
+<table id="my_table">
+  <tr>
+    <th> Ticker </th>
+    <th> Quantity </th>
+    <th> Current Price </th>
+    <th> Opening Price </th>
+    <th> Outcome </th>
+  </tr>
+  {% for stock in stockList %}
+  <tbody>
+    <tr>
+      <td>{{stock.name}}</td>
+      <td>{{stock.quantity}}</td>
+      <td>{{stock.current_price}}</td>
+      <td>{{stock.opening_price}}</td>
+      <td>{{stock.current_price - stock.opening_price}}</td>
+    </tr>
+  </tbody>
+  {% endfor %}
+</table>
+
+<script type=text/javascript src="{{url_for('static', filename='js/script.js')}}"></script>
+
+<!-- <form action='/table' method="POST">
+	Name:<input type='text' name='name'>
+	Age:<input type='text' name='age'>
+	<input type='submit' name='submit'>
+</form> -->
+
+</body>
+</html>
