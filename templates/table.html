@@ -3,12 +3,42 @@
 
 <head>
   <title>VandyHacks!</title>
-  <link rel = "stylesheet" href="{{ url_for('static', filename='stylesheets/style.css') }}"/>
+  <link rel = "stylesheet" href="{{url_for('static', filename='stylesheets/style.css') }}"/>
 </head>
-
-
 <body>
-<h1>Stockify</h1>
+  <h1>Stockify</h1>
+    <form action="" method="post" novalidate>
+
+      {{ form.hidden_tag() }}
+
+      <table>
+        <tr>
+          <td>{{ form.ticker.label }}</td>
+          <td>{{ form.quantity.label }}</td>
+        </tr>
+        <tr>
+          <td>{{ form.ticker(size = 20) }} </td>
+          <td>{{ form.quantity(size = 10) }}</td>
+        </tr>
+      </table>
+
+      <p> {{ form.submit() }} </p>
+
+      <hr>
+
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <table>
+        <tr>
+          {% for message in messages %}
+          <td>{{ message }}</td>
+          {% endfor %}
+        </tr>
+      </table>
+      {% endif %}
+      {% endwith %}
+    </form>
+
 <table id="my_table">
   <tr>
     <th> Ticker </th>
@@ -24,19 +54,27 @@
       <td>{{stock.quantity}}</td>
       <td>{{stock.current_price}}</td>
       <td>{{stock.opening_price}}</td>
-      <td>{{stock.current_price - stock.opening_price}}</td>
+      <td>{{stock.change}}</td>
     </tr>
   </tbody>
   {% endfor %}
 </table>
 
-<script type=text/javascript src="{{url_for('static', filename='js/script.js')}}"></script>
+<hr>
 
-<!-- <form action='/table' method="POST">
-	Name:<input type='text' name='name'>
-	Age:<input type='text' name='age'>
-	<input type='submit' name='submit'>
-</form> -->
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <table>
+      <tr>
+        {% for message in messages %}
+        <td>{{ message }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+    {% endif %}
+    {% endwith %}
+
+
 
 </body>
 </html>

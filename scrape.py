@@ -4,46 +4,67 @@ import io
 import urllib
 from PIL import Image
 import string
+import json
+import sys
+import fileinput
 
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 
-category_url = ['https://www.tractorsupply.com/tsc/catalog/farm-ranch?cm_sp=Farm_Ranch',
-    'https://www.tractorsupply.com/tsc/catalog/livestock?cm_sp=Fly_Livestock-_-Category-_-All',
-    'https://www.tractorsupply.com/tsc/catalog/lawn-garden?cm_sp=Fly_Lawn_Garden-_-Category-_-All',
-    'https://www.tractorsupply.com/tsc/catalog/truck-trailer?cm_sp=Fly_Truck_Trailer-_-Category-_-All',
-    'https://www.tractorsupply.com/tsc/catalog/hardware-tools?cm_sp=Fly_Hardware_Tools-_-Category-_-All',
-    'https://www.tractorsupply.com/tsc/catalog/heating-cooling?cm_sp=Heating_Cooling',
-    'https://www.tractorsupply.com/tsc/catalog/sporting-goods?cm_sp=Sporting_Goods',
-    'https://www.tractorsupply.com/tsc/catalog/outdoor-living?cm_sp=Outdoor_Living']
+def writerows(rows, filename):
+    with open(filename, 'a', encoding='utf-8') as toWrite:
+        writer = csv.writer(toWrite)
+        writer.writerows(rows)
 
 def grabSite(url):
-    return requests.get(url, headers=headers)
+    headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+    try:
+        response = requests.get(url, headers=headers)
+        return response
+    except requests.exceptions.RequestException as e:
+        print(e)
+        exit()
+
+
+
+
+    # for rows in soup.find_all("tr"):
+    #     if("oddrow" in rows["class"]) or ("evenrow" in rows["class"]):
+    #         open =
+    #         high =
+    #         low =
+    #         close =
+    #         adj =
+    #
+    #         listings.append([open,high,low,close,adj])
+
 
 if __name__ == '__main__':
-    txtFile = open('categories.txt', 'w')
-    for a in category_url:
-        quote_page = grabSite(a)
-        body = quote_page.text
-        soup = BeautifulSoup(body, 'html.parser')
-        soup.prettify()
+    txtFile = open('data.csv', 'w')
+    stockTkrs = {'TSLA', 'MSFT', 'NFLX','FB','AMZN','GOOG','AAPL'}
+    baseurl = 'https://finance.yahoo.com/quote/'
+    parturl = '/history?p='
+    data = {}
+    data['stocks'] = []
 
-        dic = { }
-        for a in soup.findAll('div', attrs={'class': 'col-md-4 category col-lg-3 py-1 py-md-5 category-border text-center'}):
-            name_box = a.find('h4', attrs={'class': 'text-center font-stymie'})
-            name = name_box.text.strip()
+    for a in stockTkrs:
+        print(a)
+        fullurl = baseurl + a + parturl + a
+        response = grabSite(fullurl)
 
-            img_box = a.find('img', attrs={'id': 'img1'})
-            img_url = img_box.get('data-blzsrc')
-            img_url = 'https:' + img_url
-            file = urllib.request.urlopen(img_url)
-            im = io.BytesIO(file.read())
-            img = Image.open(im)
-            img_name = name + '.jpg'
-            img.save(img_name)
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-            link_box = a.find('a')
-            link_url = link_box.get('href')
-            link_url = 'https://wwww.tractorsupply.com' + link_url
-            print(link_url)
-            txtFile.write(name + '\n')
-            dic[name] = link_url
+        table = soup.find("tbody")
+        open = soup.table.find('span', attrs={'data-reactid': '55'}).text
+        high = soup.table.find('span', attrs={'data-reactid': '57'}).text
+        low = soup.table.find('span', attrs={'data-reactid': '59'}).text
+        close = soup.table.find('span', attrs={'data-reactid': '61'}).text
+
+
+        data['stocks'].append({
+            'TCKR': a,
+            'Open': float(open.replace(',','')),
+            'High': float(high.replace(',','')),
+            'Low': float(low.replace(',','')),
+            'Close': float(close.replace(',',''))
+        })
+
+    json.dump(data, txtFile)

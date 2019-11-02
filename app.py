@@ -1,5 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash, redirect
+from forms import StockForm
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = 'some_string'
+
+
 
 # Homepage
 @app.route('/')
@@ -16,7 +21,13 @@ def hello_world():
 
 # Table
 @app.route('/table', methods=['GET','POST'])
-def about():
+def table():
+    form = StockForm()
+    if form.validate_on_submit():
+        flash('Bought {} stocks of {}.'.format(form.quantity.data,form.ticker.data))
+        return redirect('/table')
+
+    # Import from db - just to show functionality
     stockList = [
         {
         "name": 'TSLA',
@@ -32,10 +43,12 @@ def about():
         }
     ]
 
+
     if request.method == 'POST':
-        return render_template('table.html', stockList=stockList)
+        return render_template('table.html', stockList=stockList, form=form)
     else:
-        return render_template('table.html', stockList=stockList)
+        return render_template('table.html', stockList=stockList, form=form)
+
 
 
 app.run()
