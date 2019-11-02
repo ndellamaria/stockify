@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>VandyHacks!</title>
+</head>
+<body>
+<h1>Stockify</h1>
+{% if name %}
+<p1>Hi {{name}}!</p1>
+{% else %}
+<form action='/about' method="POST">
+	<input type='text' name='name'>Name:
+	<input type='submit' name='submit'>
+</form>
+{% endif %}
+
+</body>
+</html>
