@@ -14,7 +14,6 @@
   <form action="" method="post" novalidate>
   <div class="w3-display-container w3-center w3-bordered" style="padding-top: 40px; padding-bottom: 40px;">
       {{ form.hidden_tag() }}
-
         <table class="w3-display-middle">
           <tr>
             <td>{{ form.ticker.label }}</td>
@@ -26,12 +25,10 @@
             <td> {{ form.submit }} </td>
           </tr>
         </table>
-
-        <!-- {{ form.submit() }} -->
-
     </div>
+  </form>
 
-    {% if msg %}
+    <!-- {% if msg %}
     <h4>{{msg}}</h4>
     {% endif %}
     <hr>
@@ -46,11 +43,10 @@
       </tr>
     </table>
     {% endif %}
-    {% endwith %}
-  </form>
+    {% endwith %} -->
 
 
-      {% with messages = get_flashed_messages() %}
+      <!-- {% with messages = get_flashed_messages() %}
       {% if messages %}
       <table>
         <tr>
@@ -61,17 +57,17 @@
       </table>
       {% endif %}
       {% endwith %}
-    </form>
+    </form> -->
 
 
 <div class="w3-container">
 <table id="tableID" class="w3-table w3-border">
   <tr>
-    <th> Ticker </th>
-    <th> Quantity </th>
-    <th> Current Price </th>
-    <th> Opening Price </th>
-    <th> Outcome </th>
+    <th class = "w3-center"> Ticker </th>
+    <th class = "w3-center"> Quantity </th>
+    <th class = "w3-center"> Current Price </th>
+    <th class = "w3-center"> Opening Price </th>
+    <th class = "w3-center"> Holdings Daily Gain/Loss </th>
   </tr>
     {% for stock in stockList %}
     {% if stockList[stock]['quantity'] > 0 %}
@@ -79,8 +75,8 @@
       <tr>
         <td class = "w3-center">{{stockList[stock]['name']}}</td>
         <td class = "w3-center">{{stockList[stock]['quantity']}}</td>
-        <td class = "w3-center">{{stockList[stock]['current_price']}}</td>
         <td class = "w3-center">{{stockList[stock]['opening_price']}}</td>
+        <td class = "w3-center">{{stockList[stock]['current_price']}}</td>
         <td class="w3-center {{ stockList[stock]['color'] }}">{{stockList[stock]['change']}}</td>
       </tr>
     </tbody>
@@ -89,7 +85,7 @@
   </table>
 </div>
 
-{% with messages = get_flashed_messages() %}
+<!-- {% with messages = get_flashed_messages() %}
 {% if messages %}
 <table>
   <tr>
@@ -99,18 +95,18 @@
   </tr>
 </table>
 {% endif %}
-{% endwith %}
+{% endwith %} -->
 
-<div class = "w3-center w3-padding-small">
+<!-- <div class = "w3-center w3-padding-small">
   <a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
-</div>
+</div> -->
 
 <div class="w3-container">
-  <form action="/generate_playlist" method="post" novalidate>
+  <form action="" method="post" novalidate>
 
-    {{ form.hidden_tag() }}
+    <!-- {{ form.hidden_tag() }} -->
 
-    <select name="genre" form="form" onchange="this.form.submit();">
+    <select name="genre">
 
       {% for genre in genres %}
 
@@ -120,6 +116,7 @@
 
     </select>
 
+    <!-- {{ form.submit }} -->
 
   </form>
 </div>

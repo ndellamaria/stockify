@@ -11,11 +11,13 @@ Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'some_string'
 
+FINAL_CHANGE = [0]
+
 f = open('NASDAQ.txt')
 
 tickerSet = set()
 
-for line in f.readlines(): 
+for line in f.readlines():
     tickerSet.add(line.split()[0])
 
 # stockList = [
@@ -52,18 +54,18 @@ stocksList = collections.OrderedDict()
 # final_change=0
 @app.route('/table', methods=['GET','POST'])
 def table():
-    form = StockForm()
+    form1 = StockForm()
     final_change=0
     msg = ''
-    if form.validate_on_submit():
-        ticker = form.ticker.data
-        quantity = form.quantity.data
+    if form1.validate_on_submit():
+        ticker = form1.ticker.data
+        quantity = form1.quantity.data
 
-        if ticker not in tickerSet: 
+        if ticker not in tickerSet:
             msg = 'Please enter a valid ticker.'
             # return render_template('table.html', stocksList=stocksList, msg=msg, form=form, final_change=final_change)
         elif ticker in stocksList:
-            stocksList[ticker]['quantity']+=quantity    
+            stocksList[ticker]['quantity']+=quantity
         else:
             stocksList[ticker] = {'name':ticker}
             stocksList[ticker]['quantity']=quantity
@@ -72,7 +74,7 @@ def table():
             symbols_list+=s+','
         symbols_list=symbols_list[:-1]
         PARAMS = {
-            'symbol': symbols_list, 
+            'symbol': symbols_list,
             'api_token': api_token
         }
 
@@ -80,8 +82,9 @@ def table():
         data = response.json()
 
 
-        for stock in data['data']: 
+        for stock in data['data']:
             final_change += float(stock['day_change'])*float(stocksList[stock['symbol']]['quantity'])
+            FINAL_CHANGE[0] = final_change
             stocksList[stock['symbol']]['current_price'] = stock['price']
             stocksList[stock['symbol']]['opening_price'] = stock['price_open']
             stocksList[stock['symbol']]['change'] = float(stock['day_change'])*float(stocksList[stock['symbol']]['quantity'])
@@ -96,55 +99,67 @@ def table():
     # # Import from db - just to show functionality
 
     if request.method == 'POST':
-        return render_template('table.html', stockList=stocksList, msg=msg, form=form)
+        return render_template('table.html', stockList=stocksList, msg=msg, form=form1)
     else:
-        return render_template('table.html', stockList=stocksList, form=form, msg=msg, genres=genres)
+        return render_template('table.html', stockList=stocksList, form=form1, msg=msg, genres=genres)
 
 @app.route('/generate_playlist',methods=['GET','POST'])
 def generate_playlist():
-
+    final_change = FINAL_CHANGE[0]
     form = GenreForm()
-    choice = form.genre.data
-    searchq = choice
 
-    try:
-        access_token = 'dfhsjkdfhds'
-        sp = spotipy.Spotify(auth=access_token)
-        happytracks = sp.search(q=searchq, limit=30, type='playlist')
-    except:
+    if form.validate_on_submit():
+        searchq = form2.genre.data
 
-        grant_type = 'client_credentials'
-        body_params = {'grant_type' : grant_type}
 
-        url='https://accounts.spotify.com/api/token'
+        if final_change >= 0:
+            searchq = "happy " + searchq
+        else:
+            searchq = "sad " + searchq
 
-        r=requests.post(url, data=body_params, auth = (client_id, client_secret))
-        data = r.json()
-        access_token = data['access_token']
 
-        sp = spotipy.Spotify(auth=access_token)
+        try:
+            access_token = 'dfhsjkdfhds'
+            sp = spotipy.Spotify(auth=access_token)
+            happytracks = sp.search(q=searchq, limit=30, type='playlist')
+        except:
 
-        happytracks = sp.search(q=searchq, limit=20, type='playlist')
+            grant_type = 'client_credentials'
+            body_params = {'grant_type' : grant_type}
 
-    list = happytracks['playlists']['items']
+            url='https://accounts.spotify.com/api/token'
 
-    length = len(list)
+            r=requests.post(url, data=body_params, auth = (client_id, client_secret))
+            data = r.json()
+            access_token = data['access_token']
 
-    track_names = []
-    track_urls = []
-    track_images = []
-    for track in list:
-        track_names.append(track['name'])
-        track_urls.append(track['external_urls']['spotify'])
-        track_images.append(track['images'][0]['url'])
+            sp = spotipy.Spotify(auth=access_token)
 
-    n = random.randint(0,length-1)
-    one_track_name = track_names[n]
-    one_track_url = track_urls[n]
-    one_track_image = track_images[n]
+            happytracks = sp.search(q=searchq, limit=20, type='playlist')
 
-    # return render_template('music.html',track_names=track_names,track_urls=track_urls,length=length)
+        list = happytracks['playlists']['items']
 
-    return render_template('music.html',one_track_url=one_track_url,one_track_name=one_track_name,one_track_image=one_track_image)
+        length = len(list)
+
+        track_names = []
+        track_urls = []
+        track_images = []
+        for track in list:
+            track_names.append(track['name'])
+            track_urls.append(track['external_urls']['spotify'])
+            track_images.append(track['images'][0]['url'])
+
+        n = random.randint(0,length-1)
+        one_track_name = track_names[n]
+        one_track_url = track_urls[n]
+        one_track_image = track_images[n]
+
+        # return render_template('music.html',track_names=track_names,track_urls=track_urls,length=length)
+
+        return render_template('music.html',one_track_url=one_track_url,one_track_name=one_track_name,one_track_image=one_track_image,form=form)
+
+    else:
+
+        return render_template('music.html',one_track_url=one_track_url,one_track_name=one_track_name,one_track_image=one_track_image,form=form)
 
 app.run()
