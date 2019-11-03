@@ -1,64 +1,77 @@
 {% extends "base.html" %}
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Tangerine">
+
+<style>
+  .w3-tangerine {
+    font-family: 'Tangerine', serif;
+  }
+</style>
 
 {% block content %}
 
-  <h1 class="w3-xxxlarge w3-center">Stockify</h1>
-    <form action="" method="post" novalidate class = "w3-center">
+<h1 class="w3-xxxlarge w3-center w3-light-green w3-tangerine">Stockify</h1>
 
+  <form action="" method="post" novalidate>
+  <div class="w3-display-container w3-center w3-bordered" style="padding-top: 40px; padding-bottom: 40px;">
       {{ form.hidden_tag() }}
 
-      <table class = "w3-border w3-container-middle">
-        <tr>
-          <td>{{ form.ticker.label }}</td>
-          <td>{{ form.quantity.label }}</td>
-        </tr>
-        <tr>
-          <td>{{ form.ticker(size = 20) }} </td>
-          <td>{{ form.quantity(size = 10) }}</td>
-        </tr>
-      </table>
+        <table class="w3-display-middle">
+          <tr>
+            <td>{{ form.ticker.label }}</td>
+            <td>{{ form.quantity.label }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.ticker(size = 20) }} </td>
+            <td>{{ form.quantity(size = 5) }}</td>
+            <td> {{ form.submit }} </td>
+          </tr>
+        </table>
 
-      <p> {{ form.submit() }} </p>
+        <!-- {{ form.submit() }} -->
 
-      <hr>
+    </div>
 
-      {% with messages = get_flashed_messages() %}
-      {% if messages %}
-      <table>
-        <tr>
-          {% for message in messages %}
-          <td>{{ message }}</td>
-          {% endfor %}
-        </tr>
-      </table>
-      {% endif %}
-      {% endwith %}
-    </form>
+    <hr>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <table>
+      <tr>
+        {% for message in messages %}
+        <td>{{ message }}</td>
+        {% endfor %}
+      </tr>
+    </table>
+    {% endif %}
+    {% endwith %}
+  </form>
+
+
 <script src="{{url_for('static', filename='script.js')}}"></script>
-<div class="w3-container">
-<table id="tableID" class="w3-table w3-border">
-  <tr>
-    <th> Ticker </th>
-    <th> Quantity </th>
-    <th> Current Price </th>
-    <th> Opening Price </th>
-    <th> Outcome </th>
-  </tr>
-  {% for stock in stockList %}
-  <tbody>
+
+<div class="w3-responsive">
+  <table id="tableID" class="w3-table w3-border w3-margin-bottom w3-table-all w3-large">
     <tr>
-      <td>{{stock.name}}</td>
-      <td>{{stock.quantity}}</td>
-      <td>{{stock.current_price}}</td>
-      <td>{{stock.opening_price}}</td>
-      <td class={{ stock.color }}>{{stock.change}}</td>
+      <th class = "w3-center"> Ticker </th>
+      <th class = "w3-center"> Quantity </th>
+      <th class = "w3-center"> Current Price </th>
+      <th class = "w3-center"> Opening Price </th>
+      <th class = "w3-center"> Outcome </th>
     </tr>
-  </tbody>
-  {% endfor %}
-</table>
+    {% for stock in stockList %}
+    <tbody>
+      <tr>
+        <td class = "w3-center">{{stock.name}}</td>
+        <td class = "w3-center">{{stock.quantity}}</td>
+        <td class = "w3-center">{{stock.current_price}}</td>
+        <td class = "w3-center">{{stock.opening_price}}</td>
+        <td class="w3-center {{ stock.color }}">{{stock.change}}</td>
+      </tr>
+    </tbody>
+    {% endfor %}
+  </table>
 </div>
 
-<hr>
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -72,6 +85,7 @@
 {% endif %}
 {% endwith %}
 
-<a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
-
+<div class="w3-center">
+  <a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
+</div>
 {% endblock %}
