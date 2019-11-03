@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html>
+{% extends "base.html" %}
 
-<head>
-  <title>Stockify</title>
-  <link rel = "stylesheet" href="{{url_for('static', filename='stylesheets/style.css') }}"/>
-</head>
-<body>
+{% block content %}
+
   <h1>Stockify</h1>
     <form action="" method="post" novalidate>
 
@@ -76,5 +72,4 @@
 
 <a href="/generate_playlist?"><input type="button" value="Generate Playlist"></a>
 
-</body>
-</html>
+{% endblock %}

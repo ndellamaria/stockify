@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Stockify</title>
-</head>
-<body>
+{% extends "base.html" %}
+
+{% block content %}
+
 <h1>Today's playlists:</h1>
-
-
 
 <h2> <img src={{ one_track_image }} alt="album cover art" width="300" height="300"> <a href={{ one_track_url }}> {{ one_track_name }} </a> </h2>
 
-</body>
-</html>
+{% endblock %}

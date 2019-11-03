@@ -25,7 +25,7 @@ stockList = [
     }
 ]
 
-searchq = "happy country"
+searchq = "sad country"
 
 # form = StockForm()
 
@@ -65,7 +65,7 @@ def generate_playlist():
     try:
         access_token = 'dfhsjkdfhds'
         sp = spotipy.Spotify(auth=access_token)
-        happytracks = sp.search(q=searchq, limit=20, type='playlist')
+        happytracks = sp.search(q=searchq, limit=30, type='playlist')
     except:
 
         grant_type = 'client_credentials'
