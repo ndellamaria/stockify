@@ -9,7 +9,9 @@
 
     <div class="w3-bar w3-black w3-large">
       <a href="/table" class="w3-bar-item w3-button">Stockify</a>
-      <a href="/generate_playlist" class="w3-bar-item w3-button">Refresh</a>
+      {% if 'music' in request.url_rule.rule %}
+        <a href="/music" class="w3-bar-item w3-button">Refresh</a>
+      {% endif %}
     </div>
 
     {% block content %}{% endblock %}

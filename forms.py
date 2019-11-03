@@ -9,4 +9,4 @@ class StockForm(FlaskForm):
 
 class GenreForm(FlaskForm):
     genre = SelectField('Genre')
-    submit = SubmitField('Generate Playlist')
+    submit = SubmitField('Set Genre')

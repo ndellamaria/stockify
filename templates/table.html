@@ -13,16 +13,16 @@
 
   <form action="" method="post" novalidate>
   <div class="w3-display-container w3-center w3-bordered" style="padding-top: 40px; padding-bottom: 40px;">
-      {{ form.hidden_tag() }}
+      {{ form1.hidden_tag() }}
         <table class="w3-display-middle">
           <tr>
-            <td>{{ form.ticker.label }}</td>
-            <td>{{ form.quantity.label }}</td>
+            <td>{{ form1.ticker.label }}</td>
+            <td>{{ form1.quantity.label }}</td>
           </tr>
           <tr>
-            <td>{{ form.ticker(size = 20) }} </td>
-            <td>{{ form.quantity(size = 5) }}</td>
-            <td> {{ form.submit }} </td>
+            <td>{{ form1.ticker(size = 20) }} </td>
+            <td>{{ form1.quantity(size = 5) }}</td>
+            <td> {{ form1.submit(class_="w3-button w3-light-green w3-tiny") }} </td>
           </tr>
         </table>
     </div>
@@ -97,28 +97,44 @@
 {% endif %}
 {% endwith %} -->
 
-<!-- <div class = "w3-center w3-padding-small">
-  <a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
-</div> -->
+<div class = "w3-center w3-padding-small">
+  <a href="/music"><input class="w3-button w3-light-green w3-xlarge" type="button" value="Generate Playlist"></a>
+</div>
 
-<div class="w3-container">
+<div class="w3-container w3-center">
   <form action="" method="post" novalidate>
 
-    <!-- {{ form.hidden_tag() }} -->
+    {{ form2.hidden_tag() }}
 
-    <select name="genre">
+    <select class="w3-light-green" style="height:30px" name="genre">
 
       {% for genre in genres %}
 
-        <option value= {{ genre }} SELECTED>{{ genre }}</option>
+        <option class="w3-light-green" value= {{ genre }} SELECTED>{{ genre }}</option>
 
       {% endfor %}
 
     </select>
 
-    <!-- {{ form.submit }} -->
+    {{ form2.submit(class_="w3-light-green w3-button") }}
 
   </form>
 </div>
+
+<!-- <div class="w3-dropdown-hover">
+  <button class="w3-button">Hover Over Me!</button>
+  <div class="w3-dropdown-content w3-bar-block w3-border">
+    <form action="" method="post" novalidate>
+      {% for genre in genres %}
+      <select name="genre">
+        <option value= {{ genre }} SELECTED>{{ genre }}</option>
+      </select>
+
+      {% endfor %}
+    </form>
+  </div>
+</div> -->
+
+
 
 {% endblock %}
