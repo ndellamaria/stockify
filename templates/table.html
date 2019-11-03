@@ -31,6 +31,9 @@
 
     </div>
 
+    {% if msg %}
+    <h4>{{msg}}</h4>
+    {% endif %}
     <hr>
 
     {% with messages = get_flashed_messages() %}
@@ -70,29 +73,21 @@
     <th> Opening Price </th>
     <th> Outcome </th>
   </tr>
-  {% for stock in stockList %}
-  <tbody>
-    <tr>
-      <th class = "w3-center"> Ticker </th>
-      <th class = "w3-center"> Quantity </th>
-      <th class = "w3-center"> Current Price </th>
-      <th class = "w3-center"> Opening Price </th>
-      <th class = "w3-center"> Outcome </th>
-    </tr>
     {% for stock in stockList %}
+    {% if stockList[stock]['quantity'] > 0 %}
     <tbody>
       <tr>
-        <td class = "w3-center">{{stock.name}}</td>
-        <td class = "w3-center">{{stock.quantity}}</td>
-        <td class = "w3-center">{{stock.current_price}}</td>
-        <td class = "w3-center">{{stock.opening_price}}</td>
-        <td class="w3-center {{ stock.color }}">{{stock.change}}</td>
+        <td class = "w3-center">{{stockList[stock]['name']}}</td>
+        <td class = "w3-center">{{stockList[stock]['quantity']}}</td>
+        <td class = "w3-center">{{stockList[stock]['current_price']}}</td>
+        <td class = "w3-center">{{stockList[stock]['opening_price']}}</td>
+        <td class="w3-center {{ stock.color }}">{{stockList[stock]['change']}}</td>
       </tr>
     </tbody>
+    {% endif %}
     {% endfor %}
   </table>
 </div>
-
 
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -109,11 +104,11 @@
 <a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
 
 <div class="w3-container">
-  <form action="" method="post" novalidate>
+  <form action="/generate_playlist" method="post" novalidate>
 
     {{ form.hidden_tag() }}
 
-    <select name="genre" form="form">
+    <select name="genre" form="form" onchange="this.form.submit();">
 
       {% for genre in genres %}
 
