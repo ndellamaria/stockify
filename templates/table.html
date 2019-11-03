@@ -81,7 +81,7 @@
         <td class = "w3-center">{{stockList[stock]['quantity']}}</td>
         <td class = "w3-center">{{stockList[stock]['current_price']}}</td>
         <td class = "w3-center">{{stockList[stock]['opening_price']}}</td>
-        <td class="w3-center {{ stock.color }}">{{stockList[stock]['change']}}</td>
+        <td class="w3-center {{ stockList[stock]['color'] }}">{{stockList[stock]['change']}}</td>
       </tr>
     </tbody>
     {% endif %}

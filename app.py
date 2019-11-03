@@ -79,19 +79,19 @@ def table():
         response = requests.get('https://api.worldtradingdata.com/api/v1/stock',params=PARAMS)
         data = response.json()
 
-        # colors = []
-        # for a in stocksList:
-        #     if a['change'] >= 0:
-        #         a['change'] = '+' + str(a['change'])
-        #         a['color'] = "w3-text-green"
-        #     else:
-        #         a['color'] = "w3-text-red"
 
         for stock in data['data']: 
             final_change += float(stock['day_change'])*float(stocksList[stock['symbol']]['quantity'])
             stocksList[stock['symbol']]['current_price'] = stock['price']
             stocksList[stock['symbol']]['opening_price'] = stock['price_open']
             stocksList[stock['symbol']]['change'] = float(stock['day_change'])*float(stocksList[stock['symbol']]['quantity'])
+
+        for stock in stocksList:
+            if stocksList[stock]['change'] >= 0:
+                stocksList[stock]['change'] = '+' + str(stocksList[stock]['change'])
+                stocksList[stock]['color'] = "w3-text-green"
+            else:
+                stocksList[stock]['color'] = "w3-text-red"
 
     # # Import from db - just to show functionality
 
