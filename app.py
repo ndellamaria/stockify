@@ -4,6 +4,7 @@ from apikeys import client_id, client_secret
 from flask_bootstrap import Bootstrap
 import requests
 import spotipy
+import random
 app = Flask(__name__)
 Bootstrap(app)
 
@@ -23,6 +24,8 @@ stockList = [
     "opening_price": 7
     }
 ]
+
+searchq = "happy country"
 
 # form = StockForm()
 
@@ -62,7 +65,7 @@ def generate_playlist():
     try:
         access_token = 'dfhsjkdfhds'
         sp = spotipy.Spotify(auth=access_token)
-        happytracks = sp.search(q='happy', limit=20, type='playlist')
+        happytracks = sp.search(q=searchq, limit=20, type='playlist')
     except:
 
         grant_type = 'client_credentials'
@@ -76,7 +79,7 @@ def generate_playlist():
 
         sp = spotipy.Spotify(auth=access_token)
 
-        happytracks = sp.search(q='happy', limit=20, type='playlist')
+        happytracks = sp.search(q=searchq, limit=20, type='playlist')
 
     list = happytracks['playlists']['items']
 
@@ -84,10 +87,19 @@ def generate_playlist():
 
     track_names = []
     track_urls = []
+    track_images = []
     for track in list:
         track_names.append(track['name'])
         track_urls.append(track['external_urls']['spotify'])
+        track_images.append(track['images'][0]['url'])
 
-    return render_template('music.html',track_names=track_names,track_urls=track_urls,length=length)
+    n = random.randint(0,length-1)
+    one_track_name = track_names[n]
+    one_track_url = track_urls[n]
+    one_track_image = track_images[n]
+
+    # return render_template('music.html',track_names=track_names,track_urls=track_urls,length=length)
+
+    return render_template('music.html',one_track_url=one_track_url,one_track_name=one_track_name,one_track_image=one_track_image)
 
 app.run()

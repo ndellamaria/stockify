@@ -6,13 +6,9 @@
 <body>
 <h1>Today's playlists:</h1>
 
-{% for i in range(length) %}
 
-<ul>
-  <li>{{ track_names[i] }}</li>
-</ul>
 
-{% endfor %}
+<h2> <img src={{ one_track_image }} alt="album cover art" width="300" height="300"> <a href={{ one_track_url }}> {{ one_track_name }} </a> </h2>
 
 </body>
 </html>
