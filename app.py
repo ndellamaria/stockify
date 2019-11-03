@@ -1,17 +1,35 @@
 from flask import Flask, render_template, request, flash, redirect
 from forms import StockForm
+from apikeys import client_id, client_secret
 from flask_bootstrap import Bootstrap
+import requests
+import spotipy
 app = Flask(__name__)
 Bootstrap(app)
 
 app.config['SECRET_KEY'] = 'some_string'
 
+stockList = [
+    {
+    "name": 'TSLA',
+    "quantity": 1,
+    "current_price": 10,
+    "opening_price": 8,
+    },
+    {
+    "name": 'ACB',
+    "quantity": 2,
+    "current_price": 5,
+    "opening_price": 7
+    }
+]
 
+# form = StockForm()
 
 # Homepage
-@app.route('/')
+@app.route('/music')
 def hello_world():
-    return 'Hello, World!'
+    return render_template('music.html')
 
 # About
 #@app.route('/about', methods=['GET','POST'])
@@ -30,21 +48,6 @@ def table():
         return redirect('/table')
 
     # Import from db - just to show functionality
-    stockList = [
-        {
-        "name": 'TSLA',
-        "quantity": 1,
-        "current_price": 10,
-        "opening_price": 8,
-        },
-        {
-        "name": 'ACB',
-        "quantity": 2,
-        "current_price": 5,
-        "opening_price": 7
-        }
-    ]
-
 
     if request.method == 'POST':
         return render_template('table.html', stockList=stockList, form=form)
@@ -54,11 +57,13 @@ def table():
 @app.route('/generate_playlist',methods=['GET','POST'])
 def generate_playlist():
 
+    form = StockForm()
+
     try:
+        access_token = 'dfhsjkdfhds'
         sp = spotipy.Spotify(auth=access_token)
+        happytracks = sp.search(q='happy', limit=20, type='playlist')
     except:
-        # client_id
-        # client_secret
 
         grant_type = 'client_credentials'
         body_params = {'grant_type' : grant_type}
@@ -71,19 +76,16 @@ def generate_playlist():
 
         sp = spotipy.Spotify(auth=access_token)
 
-    happytracks = sp.search(q='happy', limit=20, type='playlist')
+        happytracks = sp.search(q='happy', limit=20, type='playlist')
 
     list = happytracks['playlists']['items']
 
+    length = len(list)
     first = list[0]['name']
 
-    flash('Play some {}.'.format(first))
-    # return redirect('/music')
-    return render_template('music.html')
+    # flash('Play some {}.'.format(first))
+    # table()
 
-
-
-
-
+    return render_template('music.html',list=list,length=length)
 
 app.run()

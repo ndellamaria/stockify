@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stockify</title>
+</head>
+<body>
+<h1>Today's playlists:</h1>
+
+{% for i in range(length) %}
+
+<ul>
+  <li>{{ list[i]['name'] }}</li>
+</ul>
+
+{% endfor %}
+
+</body>
+</html>

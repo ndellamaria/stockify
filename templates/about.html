@@ -10,11 +10,9 @@
 <pi>You are {{age}} years old!</p1>
 {% else %}
 
-<form action='/about' method="POST">
-	Name:<input type='text' name='name'>
-	Age:<input type='text' name='age'>
-	<input type='submit' name='submit'>
-</form>
+{{ first }}
+
+
 
 
 {% endif %}

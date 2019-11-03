@@ -2,11 +2,11 @@
 <html>
 
 <head>
-  <title>VandyHacks!</title>
+  <title>Stockify</title>
   <link rel = "stylesheet" href="{{url_for('static', filename='stylesheets/style.css') }}"/>
 </head>
 <body>
-  <h1>Stockify!!!!</h1>
+  <h1>Stockify</h1>
     <form action="" method="post" novalidate>
 
       {{ form.hidden_tag() }}
@@ -74,12 +74,7 @@
 {% endif %}
 {% endwith %}
 
-
-<hr>
-
-<a href="/generate_playlist"><input type="button" value="call_function"></a>
-
-
+<a href="/generate_playlist?"><input type="button" value="Generate Playlist"></a>
 
 </body>
 </html>
