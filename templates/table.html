@@ -2,12 +2,12 @@
 
 {% block content %}
 
-  <h1 class="w3-xxxlarge w3 center">Stockify</h1>
-    <form action="" method="post" novalidate>
+  <h1 class="w3-xxxlarge w3-center">Stockify</h1>
+    <form action="" method="post" novalidate class = "w3-center">
 
       {{ form.hidden_tag() }}
 
-      <table>
+      <table class = "w3-border w3-container-middle">
         <tr>
           <td>{{ form.ticker.label }}</td>
           <td>{{ form.quantity.label }}</td>
