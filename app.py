@@ -16,14 +16,24 @@ stockList = [
     "quantity": 1,
     "current_price": 10,
     "opening_price": 8,
+    "change": 4,
     },
     {
     "name": 'ACB',
     "quantity": 2,
     "current_price": 5,
-    "opening_price": 7
+    "opening_price": 7,
+    "change": -8
     }
 ]
+
+colors = []
+for a in stockList:
+    if a['change'] >= 0:
+        a['change'] = '+' + str(a['change'])
+        a['color'] = "w3-text-green"
+    else:
+        a['color'] = "w3-text-red"
 
 searchq = "sad country"
 

@@ -2,7 +2,7 @@
 
 {% block content %}
 
-  <h1>Stockify</h1>
+  <h1 class="w3-xxxlarge w3 center">Stockify</h1>
     <form action="" method="post" novalidate>
 
       {{ form.hidden_tag() }}
@@ -34,8 +34,9 @@
       {% endif %}
       {% endwith %}
     </form>
-
-<table id="my_table">
+<script src="{{url_for('static', filename='script.js')}}"></script>
+<div class="w3-container">
+<table id="tableID" class="w3-table w3-border">
   <tr>
     <th> Ticker </th>
     <th> Quantity </th>
@@ -50,11 +51,12 @@
       <td>{{stock.quantity}}</td>
       <td>{{stock.current_price}}</td>
       <td>{{stock.opening_price}}</td>
-      <td>{{stock.change}}</td>
+      <td class={{ stock.color }}>{{stock.change}}</td>
     </tr>
   </tbody>
   {% endfor %}
 </table>
+</div>
 
 <hr>
 
