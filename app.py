@@ -81,11 +81,13 @@ def generate_playlist():
     list = happytracks['playlists']['items']
 
     length = len(list)
-    first = list[0]['name']
 
-    # flash('Play some {}.'.format(first))
-    # table()
+    track_names = []
+    track_urls = []
+    for track in list:
+        track_names.append(track['name'])
+        track_urls.append(track['external_urls']['spotify'])
 
-    return render_template('music.html',list=list,length=length)
+    return render_template('music.html',track_names=track_names,track_urls=track_urls,length=length)
 
 app.run()
