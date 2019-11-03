@@ -47,10 +47,31 @@
   </form>
 
 
-<script src="{{url_for('static', filename='script.js')}}"></script>
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <table>
+        <tr>
+          {% for message in messages %}
+          <td>{{ message }}</td>
+          {% endfor %}
+        </tr>
+      </table>
+      {% endif %}
+      {% endwith %}
+    </form>
 
-<div class="w3-responsive">
-  <table id="tableID" class="w3-table w3-border w3-margin-bottom w3-table-all w3-large">
+
+<div class="w3-container">
+<table id="tableID" class="w3-table w3-border">
+  <tr>
+    <th> Ticker </th>
+    <th> Quantity </th>
+    <th> Current Price </th>
+    <th> Opening Price </th>
+    <th> Outcome </th>
+  </tr>
+  {% for stock in stockList %}
+  <tbody>
     <tr>
       <th class = "w3-center"> Ticker </th>
       <th class = "w3-center"> Quantity </th>
@@ -85,7 +106,25 @@
 {% endif %}
 {% endwith %}
 
-<div class="w3-center">
-  <a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
+<a href="/generate_playlist"><input type="button" value="Generate Playlist"></a>
+
+<div class="w3-container">
+  <form action="" method="post" novalidate>
+
+    {{ form.hidden_tag() }}
+
+    <select name="genre" form="form">
+
+      {% for genre in genres %}
+
+        <option value= {{ genre }} SELECTED>{{ genre }}</option>
+
+      {% endfor %}
+
+    </select>
+
+
+  </form>
 </div>
+
 {% endblock %}

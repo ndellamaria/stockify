@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, flash, redirect
-from forms import StockForm
+from forms import StockForm, GenreForm
 from apikeys import client_id, client_secret
 from flask_bootstrap import Bootstrap
 import requests
@@ -27,6 +27,8 @@ stockList = [
     }
 ]
 
+genres = ['country','pop','alternative','rock','electronic','party','jazz','classical']
+
 colors = []
 for a in stockList:
     if a['change'] >= 0:
@@ -35,22 +37,7 @@ for a in stockList:
     else:
         a['color'] = "w3-text-red"
 
-searchq = "sad country"
-
-# form = StockForm()
-
-# Homepage
-@app.route('/music')
-def hello_world():
-    return render_template('music.html')
-
-# About
-#@app.route('/about', methods=['GET','POST'])
-#def about():
-#	if request.method == 'POST':
-#		return render_template('about.html', name=request.form['name'], age=request.form['age'])
-#	else:
-#		return render_template('about.html')
+searchq = "classical"
 
 # Table
 @app.route('/table', methods=['GET','POST'])
@@ -65,12 +52,14 @@ def table():
     if request.method == 'POST':
         return render_template('table.html', stockList=stockList, form=form)
     else:
-        return render_template('table.html', stockList=stockList, form=form)
+        return render_template('table.html', stockList=stockList, form=form, genres=genres)
 
 @app.route('/generate_playlist',methods=['GET','POST'])
 def generate_playlist():
 
-    form = StockForm()
+    form = GenreForm()
+    choice = form.genre.data
+    searchq = choice
 
     try:
         access_token = 'dfhsjkdfhds'

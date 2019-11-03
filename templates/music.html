@@ -2,15 +2,19 @@
 
 {% block content %}
 
-<div class="w3-container w3-center">
+<div class="w3-display-container">
   <!-- <h2>Photo Card</h2> -->
 
-  <div class="w3-card-4 w3-center" style="width:300px">
-    <a href={{ one_track_url }}> <img class="w3-center"src={{ one_track_image }} alt="album cover art" width="300" height="300"> </a>
-    <div class="w3-container w3-center">
+  <div class="w3-card-4 w3-display-topmiddle" style="width:300px">
+
+    <a href={{ one_track_url }}> <img class=""src={{ one_track_image }} alt="album cover art" width="300" height="300"> </a>
+
+		<div class="w3-container w3-center">
       <p>{{ one_track_name }}</p>
     </div>
+
   </div>
+
 </div>
 
 {% endblock %}
