@@ -1,0 +1,19 @@
+h1 {
+  text-align: center;
+}
+
+div {
+  height: auto;
+  width: auto;
+}
+
+
+th {
+  padding: 15px;
+  text-align: center;
+}
+
+td {
+  padding: 15px;
+  text-align: center;
+}

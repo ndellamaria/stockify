@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Stockify</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  </head>
+  <body>
+
+    <div class="w3-bar w3-black w3-large">
+      <a href="/table" class="w3-bar-item w3-button">Stockify</a>
+      {% if 'music' in request.url_rule.rule %}
+        <a href="/music" class="w3-bar-item w3-button">Refresh</a>
+      {% endif %}
+    </div>
+
+    {% block content %}{% endblock %}
+
+  </body>
+</html>
